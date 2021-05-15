@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/voice1.wav-6e43684778d7bbfca13834af6bfbc70b.sample"
+
+[deps]
+
+source_file="res://recursos/Medieval King Pack 2/voice1.wav"
+dest_files=[ "res://.import/voice1.wav-6e43684778d7bbfca13834af6bfbc70b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

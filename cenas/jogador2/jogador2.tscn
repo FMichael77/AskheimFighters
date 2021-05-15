@@ -1,0 +1,96 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://cenas/jogador2/jogador2.gd" type="Script" id=1]
+[ext_resource path="res://recursos/Light Bandit/Run/LightBandit_Run_2.png" type="Texture" id=2]
+[ext_resource path="res://recursos/Light Bandit/Run/LightBandit_Run_3.png" type="Texture" id=3]
+[ext_resource path="res://recursos/Light Bandit/Run/LightBandit_Run_0.png" type="Texture" id=4]
+[ext_resource path="res://recursos/Light Bandit/Run/LightBandit_Run_1.png" type="Texture" id=5]
+[ext_resource path="res://recursos/Light Bandit/voice2.wav" type="AudioStream" id=6]
+[ext_resource path="res://recursos/Light Bandit/Attack/LightBandit_Attack_2.png" type="Texture" id=7]
+[ext_resource path="res://recursos/Light Bandit/Death/LightBandit_Death_0.png" type="Texture" id=8]
+[ext_resource path="res://recursos/Light Bandit/Hurt/LightBandit_Hurt_0.png" type="Texture" id=9]
+[ext_resource path="res://recursos/Light Bandit/Attack/LightBandit_Attack_3.png" type="Texture" id=10]
+[ext_resource path="res://recursos/Light Bandit/Attack/LightBandit_Attack_4.png" type="Texture" id=11]
+[ext_resource path="res://recursos/Light Bandit/Attack/LightBandit_Attack_5.png" type="Texture" id=12]
+[ext_resource path="res://recursos/Light Bandit/Attack/LightBandit_Attack_6.png" type="Texture" id=13]
+[ext_resource path="res://recursos/Light Bandit/Idle/LightBandit_Idle_2.png" type="Texture" id=14]
+[ext_resource path="res://recursos/Light Bandit/Idle/LightBandit_Idle_1.png" type="Texture" id=15]
+[ext_resource path="res://recursos/Light Bandit/Idle/LightBandit_Idle_0.png" type="Texture" id=16]
+[ext_resource path="res://recursos/Light Bandit/Idle/LightBandit_Idle_3.png" type="Texture" id=17]
+[ext_resource path="res://recursos/Light Bandit/Run/LightBandit_Run_6.png" type="Texture" id=18]
+[ext_resource path="res://recursos/Light Bandit/Run/LightBandit_Run_4.png" type="Texture" id=19]
+[ext_resource path="res://recursos/Light Bandit/Run/LightBandit_Run_7.png" type="Texture" id=20]
+[ext_resource path="res://recursos/Light Bandit/Jump/LightBandit_Jump_0.png" type="Texture" id=21]
+[ext_resource path="res://recursos/Light Bandit/Run/LightBandit_Run_5.png" type="Texture" id=22]
+[ext_resource path="res://recursos/Light Bandit/Hurt/LightBandit_Hurt_1.png" type="Texture" id=23]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 16 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 17 ) ],
+"loop": true,
+"name": "idle",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 21 ) ],
+"loop": false,
+"name": "pulando",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
+"loop": false,
+"name": "atacando",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 23 ) ],
+"loop": false,
+"name": "recebendo_dano",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 19 ), ExtResource( 22 ), ExtResource( 18 ), ExtResource( 20 ) ],
+"loop": true,
+"name": "correndo",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": false,
+"name": "morrendo",
+"speed": 7.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8.69138, 18.6133 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 6.93079, 10.3195 )
+
+[node name="Jogador2" type="KinematicBody2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 1.65551, 3.54821 )
+shape = SubResource( 2 )
+
+[node name="AtaqueJ2" type="Area2D" parent="."]
+position = Vector2( 0, 0.927479 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AtaqueJ2"]
+position = Vector2( -17.1901, -5.66325 )
+shape = SubResource( 3 )
+disabled = true
+
+[node name="AudioAtaqueJ2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="body_entered" from="AtaqueJ2" to="." method="_on_AtaqueJ2_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
