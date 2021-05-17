@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://cenas/fundo/Fundo.tscn" type="PackedScene" id=1]
 [ext_resource path="res://cenas/jogador1/Jogador1.tscn" type="PackedScene" id=2]
@@ -6,8 +6,109 @@
 [ext_resource path="res://recursos/HUD/lifeBarAF.png" type="Texture" id=4]
 [ext_resource path="res://recursos/HUD/lifeBarAF2.png" type="Texture" id=5]
 [ext_resource path="res://recursos/HUD/lifeBarA3.png" type="Texture" id=6]
+[ext_resource path="res://recursos/HUD/nomeAF.png" type="Texture" id=7]
+[ext_resource path="res://recursos/Font/pixelart.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://recursos/Sounds/gameAF.wav" type="AudioStream" id=9]
+[ext_resource path="res://cenas/Game.gd" type="Script" id=10]
+[ext_resource path="res://recursos/HUD/botaoPressedAF.png" type="Texture" id=11]
+[ext_resource path="res://recursos/HUD/botaoHoverAF.png" type="Texture" id=12]
+[ext_resource path="res://recursos/HUD/botaoNormalAF.png" type="Texture" id=13]
+[ext_resource path="res://recursos/Sounds/clickAF.wav" type="AudioStream" id=14]
+
+[sub_resource type="DynamicFont" id=1]
+size = 12
+extra_spacing_char = 2
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 12
+extra_spacing_char = 2
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 25
+outline_size = 1
+outline_color = Color( 0.141176, 0.137255, 0.133333, 1 )
+font_data = ExtResource( 8 )
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends Label
+
+
+func _ready():
+	pass
+
+
+func _on_Jogador2_perdeuPartida():
+	show()
+"
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends Label
+
+
+func _ready():
+	pass
+
+
+func _on_Jogador1_perdeuPartida():
+	show()
+"
+
+[sub_resource type="GDScript" id=6]
+script/source = "extends TextureButton
+
+
+func _ready():
+	pass
+
+
+func _on_Jogador1_perdeuPartida():
+	show()
+
+
+func _on_Jogador2_perdeuPartida():
+	show()
+
+
+func _on_Menu_pressed():
+	get_tree().change_scene(\"res://cenas/Menu.tscn\")
+
+
+func _on_Menu_mouse_entered():
+	get_node(\"../../AudioClick\").play()
+"
+
+[sub_resource type="DynamicFont" id=7]
+size = 22
+font_data = ExtResource( 8 )
+
+[sub_resource type="GDScript" id=8]
+script/source = "extends TextureButton
+
+
+func _ready():
+	pass
+
+
+func _on_Jogador1_perdeuPartida():
+	show()
+
+
+func _on_Jogador2_perdeuPartida():
+	show()
+
+
+func _on_Sair_pressed():
+	get_tree().quit()
+
+
+func _on_Sair_mouse_entered():
+	get_node(\"../../AudioClick\").play()
+"
 
 [node name="Game" type="Node2D"]
+script = ExtResource( 10 )
 
 [node name="Fundo" parent="." instance=ExtResource( 1 )]
 
@@ -46,3 +147,163 @@ texture_progress = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="NomeJ1" type="TextureRect" parent="HUD"]
+margin_left = 152.841
+margin_top = 62.3182
+margin_right = 272.841
+margin_bottom = 84.3182
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/NomeJ1"]
+margin_left = 8.0
+margin_right = 120.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.776471, 0.780392, 0.639216, 1 )
+text = "Rei Eratos"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Nome J2" type="TextureRect" parent="HUD"]
+margin_left = 741.139
+margin_top = 62.3182
+margin_right = 861.139
+margin_bottom = 84.3182
+texture = ExtResource( 7 )
+flip_h = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/Nome J2"]
+margin_right = 112.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.776471, 0.780392, 0.639216, 1 )
+text = "Soldier"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Resultado1" type="Label" parent="HUD"]
+visible = false
+margin_left = 362.0
+margin_top = 40.0
+margin_right = 662.0
+margin_bottom = 140.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.776471, 0.780392, 0.639216, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Rei Eratos Venceu"
+align = 1
+valign = 1
+uppercase = true
+script = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Resultado2" type="Label" parent="HUD"]
+visible = false
+margin_left = 362.0
+margin_top = 40.0
+margin_right = 662.0
+margin_bottom = 140.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.776471, 0.780392, 0.639216, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Soldier Venceu"
+align = 1
+valign = 1
+uppercase = true
+script = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="TextureButton" parent="HUD"]
+visible = false
+margin_left = 442.0
+margin_top = 260.0
+margin_right = 592.0
+margin_bottom = 300.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 11 )
+texture_hover = ExtResource( 12 )
+script = SubResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/Menu"]
+margin_right = 150.0
+margin_bottom = 40.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0.141176, 0.137255, 0.133333, 1 )
+text = "Menu"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sair" type="TextureButton" parent="HUD"]
+visible = false
+margin_left = 442.0
+margin_top = 310.0
+margin_right = 592.0
+margin_bottom = 350.0
+rect_scale = Vector2( 0.8, 0.8 )
+texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 11 )
+texture_hover = ExtResource( 12 )
+script = SubResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/Sair"]
+margin_right = 150.0
+margin_bottom = 40.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0.141176, 0.137255, 0.133333, 1 )
+text = "Sair"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioPlaying" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 9 )
+volume_db = -12.0
+autoplay = true
+
+[node name="AudioClick" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 442, 260 )
+scale = Vector2( 0.8, 0.8 )
+stream = ExtResource( 14 )
+volume_db = -10.0
+[connection signal="perdeuPartida" from="Jogador1" to="Jogador2" method="_on_Jogador1_perdeuPartida" flags=6]
+[connection signal="perdeuPartida" from="Jogador1" to="." method="_on_Jogador1_perdeuPartida"]
+[connection signal="perdeuPartida" from="Jogador1" to="HUD/Resultado2" method="_on_Jogador1_perdeuPartida"]
+[connection signal="perdeuPartida" from="Jogador1" to="HUD/Sair" method="_on_Jogador1_perdeuPartida"]
+[connection signal="perdeuPartida" from="Jogador1" to="HUD/Menu" method="_on_Jogador1_perdeuPartida"]
+[connection signal="perdeuPartida" from="Jogador2" to="Jogador1" method="_on_Jogador2_perdeuPartida" flags=6]
+[connection signal="perdeuPartida" from="Jogador2" to="." method="_on_Jogador2_perdeuPartida"]
+[connection signal="perdeuPartida" from="Jogador2" to="HUD/Resultado1" method="_on_Jogador2_perdeuPartida"]
+[connection signal="perdeuPartida" from="Jogador2" to="HUD/Sair" method="_on_Jogador2_perdeuPartida"]
+[connection signal="perdeuPartida" from="Jogador2" to="HUD/Menu" method="_on_Jogador2_perdeuPartida"]
+[connection signal="mouse_entered" from="HUD/Menu" to="HUD/Menu" method="_on_Menu_mouse_entered"]
+[connection signal="pressed" from="HUD/Menu" to="HUD/Menu" method="_on_Menu_pressed"]
+[connection signal="mouse_entered" from="HUD/Sair" to="HUD/Sair" method="_on_Sair_mouse_entered"]
+[connection signal="pressed" from="HUD/Sair" to="HUD/Sair" method="_on_Sair_pressed"]

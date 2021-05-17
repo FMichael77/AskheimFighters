@@ -13,6 +13,8 @@ var atacando = false
 var pulando = false
 var som_ataque = true
 var recebendo_dano = false
+var ganhouPartida = 0
+signal perdeuPartida
 
 
 func _physics_process(delta):
@@ -39,7 +41,7 @@ func _physics_process(delta):
 				$AnimatedSprite.play("idle")
 				
 		if Input.is_action_just_pressed("ataqueJ2") \
-		and recebendo_dano == false:
+		and recebendo_dano == false and ganhouPartida != 1:
 			$AnimatedSprite.play("atacando")
 			$AtaqueJ2/CollisionShape2D.disabled = false
 			
@@ -58,9 +60,14 @@ func _physics_process(delta):
 				
 		if $AnimatedSprite.flip_h == true:
 			$AtaqueJ2/CollisionShape2D.disabled = true
+			
+		if ganhouPartida == 1:
+			movimento.x = 0
+			$AnimatedSprite.play("idle")
 	else:
 		$AtaqueJ2/CollisionShape2D.disabled = true
 		$AnimatedSprite.play("morrendo")
+		emit_signal("perdeuPartida")
 	
 	movimento = move_and_slide(movimento, RESISTENCIA)
 
@@ -103,8 +110,12 @@ func _on_Timer_timeout():
 		
 		var instancia_hit = hit.instance()
 		instancia_hit.global_position = global_position
-		instancia_hit.global_position.x -= 12
-		instancia_hit.global_position.y -= 40
+		instancia_hit.position.x -= 12
+		instancia_hit.position.y -= 40
 		get_tree().get_current_scene().add_child(instancia_hit)
 	
 	get_node("../HUD/VidaJ2").value -= DANO
+
+
+func _on_Jogador1_perdeuPartida():
+	ganhouPartida += 1

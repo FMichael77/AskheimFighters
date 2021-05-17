@@ -31,25 +31,25 @@ animations = [ {
 "name": "idle",
 "speed": 7.0
 }, {
-"frames": [ ExtResource( 21 ) ],
-"loop": false,
-"name": "pulando",
-"speed": 7.0
-}, {
 "frames": [ ExtResource( 7 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
 "loop": false,
 "name": "atacando",
-"speed": 7.0
-}, {
-"frames": [ ExtResource( 9 ), ExtResource( 23 ) ],
-"loop": false,
-"name": "recebendo_dano",
 "speed": 7.0
 }, {
 "frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 19 ), ExtResource( 22 ), ExtResource( 18 ), ExtResource( 20 ) ],
 "loop": true,
 "name": "correndo",
 "speed": 10.0
+}, {
+"frames": [ ExtResource( 21 ) ],
+"loop": false,
+"name": "pulando",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 23 ) ],
+"loop": false,
+"name": "recebendo_dano",
+"speed": 7.0
 }, {
 "frames": [ ExtResource( 8 ) ],
 "loop": false,
@@ -89,7 +89,7 @@ disabled = true
 stream = ExtResource( 6 )
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.2
 one_shot = true
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="AtaqueJ2" to="." method="_on_AtaqueJ2_body_entered"]

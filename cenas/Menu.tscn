@@ -1,0 +1,179 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://recursos/Backgrounds/menu.png" type="Texture" id=1]
+[ext_resource path="res://recursos/HUD/logo.png" type="Texture" id=2]
+[ext_resource path="res://recursos/Font/pixelart.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://recursos/HUD/botaoNormalAF.png" type="Texture" id=4]
+[ext_resource path="res://recursos/HUD/botaoPressedAF.png" type="Texture" id=5]
+[ext_resource path="res://recursos/HUD/botaoHoverAF.png" type="Texture" id=6]
+[ext_resource path="res://recursos/Sounds/menuAF.wav" type="AudioStream" id=7]
+[ext_resource path="res://recursos/Sounds/clickAF.wav" type="AudioStream" id=8]
+[ext_resource path="res://recursos/Sounds/enterAF.wav" type="AudioStream" id=9]
+[ext_resource path="res://recursos/Backgrounds/black - 1024_600.png" type="Texture" id=10]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends TextureButton
+
+var botaoPressionado = false
+
+func _ready():
+	pass
+
+
+func _on_Jogar_pressed():
+	disabled = true
+	botaoPressionado = true
+	get_node(\"../AudioEnter\").play()
+	get_node(\"../AnimationMenu\").play(\"menu\")
+	get_node(\"../Timer\").start()
+	get_node(\"../Black\").visible = true
+
+
+
+func _on_Jogar_mouse_entered():
+	if !botaoPressionado:
+		get_node(\"../AudioClick\").play()
+
+
+func _on_Timer_timeout():
+	get_tree().change_scene(\"res://cenas/Game.tscn\")
+"
+
+[sub_resource type="DynamicFont" id=2]
+size = 22
+font_data = ExtResource( 3 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends TextureButton
+
+var botaoPressionado = false
+
+func _ready():
+	pass
+
+
+func _on_Sair_pressed():
+	get_tree().quit()
+
+
+func _on_Sair_mouse_entered():
+	if !botaoPressionado:
+		get_node(\"../AudioClick\").play()
+
+
+func _on_Jogar_pressed():
+	disabled = true
+	botaoPressionado = true
+"
+
+[sub_resource type="DynamicFont" id=4]
+size = 22
+font_data = ExtResource( 3 )
+
+[sub_resource type="Animation" id=5]
+resource_name = "menu"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Black:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="Menu" type="Node2D"]
+
+[node name="Fundo" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+
+[node name="Logo" type="Sprite" parent="."]
+position = Vector2( 512, 180 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 2 )
+
+[node name="Jogar" type="TextureButton" parent="."]
+margin_left = 442.0
+margin_top = 240.0
+margin_right = 592.0
+margin_bottom = 280.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 6 )
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Jogar"]
+margin_right = 150.0
+margin_bottom = 40.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.141176, 0.137255, 0.133333, 1 )
+text = "Jogar"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sair" type="TextureButton" parent="."]
+margin_left = 442.0
+margin_top = 300.0
+margin_right = 592.0
+margin_bottom = 340.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 6 )
+script = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Sair"]
+margin_right = 150.0
+margin_bottom = 40.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.141176, 0.137255, 0.133333, 1 )
+text = "Sair"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Black" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+texture = ExtResource( 10 )
+centered = false
+
+[node name="AudioMenu" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+volume_db = -10.0
+autoplay = true
+
+[node name="AudioClick" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
+volume_db = -10.0
+
+[node name="AudioEnter" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 9 )
+volume_db = -5.0
+
+[node name="AnimationMenu" type="AnimationPlayer" parent="."]
+anims/menu = SubResource( 5 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.5
+[connection signal="mouse_entered" from="Jogar" to="Jogar" method="_on_Jogar_mouse_entered"]
+[connection signal="pressed" from="Jogar" to="Sair" method="_on_Jogar_pressed"]
+[connection signal="pressed" from="Jogar" to="Jogar" method="_on_Jogar_pressed"]
+[connection signal="mouse_entered" from="Sair" to="Sair" method="_on_Sair_mouse_entered"]
+[connection signal="pressed" from="Sair" to="Sair" method="_on_Sair_pressed"]
+[connection signal="timeout" from="Timer" to="Jogar" method="_on_Timer_timeout"]

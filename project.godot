@@ -16,8 +16,9 @@ _global_script_class_icons={
 [application]
 
 config/name="Askheim Fighters"
-run/main_scene="res://cenas/Game.tscn"
+run/main_scene="res://cenas/Menu.tscn"
 config/icon="res://Logo - Askheim Fighters.png"
+config/windows_native_icon="res://iconAF.ico"
 
 [input]
 

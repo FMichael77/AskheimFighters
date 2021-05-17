@@ -1,7 +1,6 @@
 extends KinematicBody2D
 
 var hit = preload("res://cenas/hit/Hit.tscn")
-
 var gravidade = 20
 const VELOCIDADE = 200
 const PULO = -400
@@ -13,6 +12,9 @@ var atacando = false
 var pulando = false
 var som_ataque = true
 var recebendo_dano = false
+var ganhouPartida = 0
+signal perdeuPartida
+
 
 
 func _physics_process(delta):
@@ -39,7 +41,7 @@ func _physics_process(delta):
 				$AnimatedSprite.play("idle")
 				
 		if Input.is_action_just_pressed("ataqueJ1") \
-		and recebendo_dano == false:
+		and recebendo_dano == false and ganhouPartida != 1:
 			$AnimatedSprite.play("atacando")
 			$AtaqueJ1/CollisionShape2D.disabled = false
 			
@@ -59,15 +61,21 @@ func _physics_process(delta):
 				
 		if $AnimatedSprite.flip_h == true:
 			$AtaqueJ1/CollisionShape2D.disabled = true
+			
+		if ganhouPartida == 1:
+			movimento.x = 0
+			$AnimatedSprite.play("idle")
 	else:
 		$AtaqueJ1/CollisionShape2D.disabled = true
 		$AnimatedSprite.play("morrendo")
+		emit_signal("perdeuPartida")
 			
 	movimento = move_and_slide(movimento, RESISTENCIA)
 
 
 func receber_dano():
-	recebendo_dano = true	
+	recebendo_dano = true
+	
 	$Timer.start()
 
 
@@ -102,7 +110,11 @@ func _on_Timer_timeout():
 
 		var instancia_hit = hit.instance()
 		instancia_hit.global_position = global_position
-		instancia_hit.global_position.x += 20
+		instancia_hit.position.x += 20
 		get_tree().get_current_scene().add_child(instancia_hit)
 	
 	get_node("../HUD/VidaJ1").value -= DANO
+
+
+func _on_Jogador2_perdeuPartida():
+	ganhouPartida += 1
